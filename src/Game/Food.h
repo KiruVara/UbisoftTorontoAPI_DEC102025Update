@@ -15,6 +15,9 @@ public:
 	void Eat(); 
 	bool IsEaten() const { return eaten; }
 
+	//reuse eaten food to save memory 
+	void RespawnRandom(); 
+
 private: 
 	bool eaten = false; 
 };

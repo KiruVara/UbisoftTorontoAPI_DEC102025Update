@@ -19,7 +19,7 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Organism>> organisms; 
-	std::vector<std::unique_ptr<Food>> food;
+	std::vector<std::unique_ptr<Food>> foodList;
 	Environment environment;
 
 
