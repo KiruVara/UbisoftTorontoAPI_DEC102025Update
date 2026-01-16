@@ -1,1 +1,11 @@
+///////////////////////////////////////////////////////////////////////////////
+// Filename: Organism.h
+// This will represent all basic organisms that the player interacts with
+// Uses functions like hunger, wander, and find food
+// inherits from LivingCreature.h
+///////////////////////////////////////////////////////////////////////////////
+
 #pragma once
+#include "LivingCreature.h"
+#include "Food.h"
+

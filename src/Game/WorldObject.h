@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Filename: Food.cpp
-// Food rendering and eaten state 
+// Filename: WorldObject.h
+// Base class for all objects that exist in world
+// Provides a position for objects, and is an abstract base class. 
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Food.h"
-#include "../ContestAPI/app.h"
+#pragma once
+

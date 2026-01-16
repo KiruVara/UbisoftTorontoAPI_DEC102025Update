@@ -1,8 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Filename: Food.h
-// Basic food object that the organisms eat 
-// Inherits from WorldObjext.h
+// Filename: LivingCreature.h
+// Abstract class for living creatures that use think (behaviour function)
+// Inherits from WorldObject.h
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "WorldObject.h"
+
