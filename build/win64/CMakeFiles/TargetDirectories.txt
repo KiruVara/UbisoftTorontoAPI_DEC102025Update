@@ -1,0 +1,4 @@
+C:/Users/kvara/Documents/UbisoftTorontoAPI_DEC102025Update/build/win64/CMakeFiles/ContestAPI.dir
+C:/Users/kvara/Documents/UbisoftTorontoAPI_DEC102025Update/build/win64/CMakeFiles/Game.dir
+C:/Users/kvara/Documents/UbisoftTorontoAPI_DEC102025Update/build/win64/CMakeFiles/ALL_BUILD.dir
+C:/Users/kvara/Documents/UbisoftTorontoAPI_DEC102025Update/build/win64/CMakeFiles/ZERO_CHECK.dir
