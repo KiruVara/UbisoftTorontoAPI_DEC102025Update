@@ -6,3 +6,14 @@
 
 #pragma once
 #include "Food.h"
+#include <vector>
+#include <memory>
+
+class Environment {
+public:
+	void SpawnInitialFood(std::vector<std::unique_ptr<Food>>& foodList); 
+	void Update(std::vector<std::unique_ptr<Food>>& foodList); 
+
+private:
+
+};

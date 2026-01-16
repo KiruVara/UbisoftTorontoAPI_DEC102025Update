@@ -5,3 +5,19 @@
 
 #include "Food.h"
 #include "../ContestAPI/app.h"
+
+Food::Food(float x, float y)
+{
+}
+
+void Food::Update(float deltaTime)
+{
+}
+
+void Food::Render()
+{
+}
+
+void Food::Eat()
+{
+}
