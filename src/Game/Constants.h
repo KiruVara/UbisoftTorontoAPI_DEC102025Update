@@ -14,13 +14,27 @@ namespace Settings {
 
 	//Organism constants
 	namespace Gameplay {
-		inline constexpr float HUNGER_TIME = 0.01f; 
-		inline constexpr int HUNGER_BASE = 60; 
+		//hunger
+		inline constexpr float METABOLISM = 0.01f; 
+		inline constexpr int HUNGER_THRESHOLD = 60; 
+		inline constexpr int EAT_RADIUS = 5;
+
+		//rest
+		inline constexpr int REST_THRESHOLD = 5; //if hunger is lower than rest threshold organism can rest
+		inline constexpr int REST_MAX = 20; //amount of time organism can rest for
+
+		//wander
 		inline constexpr float WANDER_POWER = 0.0001f; //force of turn
 		inline constexpr int WANDER_VAR = 200; //angles of turn
 		inline constexpr int WANDER_MID = 100; //make sure it can turn in all directions 
+
+		//sight
 		inline constexpr int VISISON_RADIUS = 100;
-		inline constexpr int EAT_RADIUS = 5;
+
+		//age + repoduction
+		inline constexpr float MAX_AGE = 60.0f; 
+
+
 	}
 
 	//Physics 

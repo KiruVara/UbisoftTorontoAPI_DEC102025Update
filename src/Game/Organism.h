@@ -10,19 +10,24 @@
 #include "Food.h"
 #include <vector>
 #include <memory>
+#include "Constants.h"
+
+namespace SG = Settings::Gameplay;
 
 class Organism : public LivingCreature {
 public:
+	//state machine for organism 
 	enum class State {
 		Wandering, 
 		FindingFood,
 		Eating,
-		RuningAway, 
-		Chasing,
+		RuningAway, //TBD
+		Chasing,	//TBD
 		Reproducing,
 		Resting,
 		Dying
 	};
+
 	//give each organism a random position at start
 	void InitRandom(); 
 
@@ -40,7 +45,14 @@ public:
 
 private: 
 	float hunger = 50.0f; //hunger starts at 50 and increases over time
-	float speed = 1.0f; 
+	float restTime = 0.0f;
+	float age = 0.0f; 
+
+	//traits 
+	float speed = 1.0f;
+	float visionRadius = SG::VISISON_RADIUS; 
+	float metabolism = SG::METABOLISM; 
+	float maxAge = SG::MAX_AGE; 
 
 	//movement direction 
 	float dirX = 0.0f; 
@@ -51,6 +63,9 @@ private:
 	//behviour functions 
 	void Wander(float deltaTime); 
 	void FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foodList); 
+	void Rest(float deltaTime);
+	void Eat();
+
 
 };
 

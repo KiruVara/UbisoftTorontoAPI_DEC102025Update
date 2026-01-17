@@ -30,7 +30,10 @@ void Organism::InitRandom()
 void Organism::Update(float deltaTime, std::vector<std::unique_ptr<Food>>& foodList)
 {
 	//Hunger increases over time 
-	hunger += SG::HUNGER_TIME * deltaTime; 
+	hunger += metabolism * deltaTime; 
+
+	//age over time
+	age += deltaTime; 
 
 	//decide what to do 
 	Think(deltaTime); 
@@ -41,9 +44,14 @@ void Organism::Update(float deltaTime, std::vector<std::unique_ptr<Food>>& foodL
 			FindFood(deltaTime, foodList);
 			break;
 		
-		case State::Wandering:
-			Wander(deltaTime); 
+		case State::Eating:
+			Eat(); 
 			break; 
+
+		case State::Resting:
+			Rest(deltaTime); 
+			break; 
+
 
 		default:
 			Wander(deltaTime);
@@ -90,17 +98,20 @@ void Organism::Render()
 void Organism::Think(float deltaTime)
 {
 	//state machine
-	//Wander
-	//Find Food
+	//Wander X
+	//Find Food X
 	//Eat
 	//Run Away 
 	//Chase
 	//Reproduce
-	//Rest
+	//Rest X
 	//Die
 
-	if (hunger > Settings::Gameplay::HUNGER_BASE) {
+	if (hunger > SG::HUNGER_THRESHOLD) {
 		currentState = State::FindingFood;
+	}
+	else if(SG::HUNGER_THRESHOLD < SG::REST_THRESHOLD){
+		currentState = State::Resting; 
 	}
 	else {
 		currentState = State::Wandering;
@@ -123,6 +134,9 @@ void Organism::Wander(float deltaTime)
 	x += dirX * speed; 
 	y += dirY * speed; 
 
+	//reset rest timer 
+	restTime = 0;
+
 }
 
 void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foodList)
@@ -140,7 +154,7 @@ void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foo
 		float dist = sqrt(dx * dx + dy * dy);
 
 		//If close enough organism should move towards it 
-		if (dist < SG::VISISON_RADIUS)
+		if (dist < visionRadius)
 		{
 			//create direction vectors and have it move towards food
 			dirX = dx / dist;
@@ -153,12 +167,33 @@ void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foo
 			if (dist < SG::EAT_RADIUS)
 			{
 				food->Eat();
-				hunger -= 20.0f; //hardcode for now -> change to variable depending on food type
+				Eat(); 
+				
 			}
 			return;
 		}
 	}
 	//if there no food within sight go back to wandering 
 	Wander(deltaTime); 
+
+}
+
+void Organism::Rest(float deltaTime)
+{
+	restTime += deltaTime;
+	if (restTime < SG::REST_MAX) {
+		metabolism /= 2;
+	}
+	else {
+		metabolism *= 2; 
+		Wander(deltaTime); 
+	}
+						
+	
+}
+
+void Organism::Eat()
+{
+	hunger -= 20.0f; //hardcode for now -> change to variable depending on food type
 
 }
