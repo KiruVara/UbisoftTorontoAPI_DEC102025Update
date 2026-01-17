@@ -45,7 +45,7 @@ void Organism::Update(float deltaTime, std::vector<std::unique_ptr<Food>>& foodL
 			break;
 		
 		case State::Eating:
-			Eat(); 
+			Eat(deltaTime);
 			break; 
 
 		case State::Resting:
@@ -110,7 +110,7 @@ void Organism::Think(float deltaTime)
 	if (hunger > SG::HUNGER_THRESHOLD) {
 		currentState = State::FindingFood;
 	}
-	else if(SG::HUNGER_THRESHOLD < SG::REST_THRESHOLD){
+	else if(hunger < SG::REST_THRESHOLD){
 		currentState = State::Resting; 
 	}
 	else {
@@ -122,8 +122,8 @@ void Organism::Think(float deltaTime)
 void Organism::Wander(float deltaTime)
 {
 	//allow the organism to move in any direction
-	dirX = ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
-	dirY = ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
+	dirX += ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
+	dirY += ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
 
 	float length = sqrt(dirX * dirX + dirY * dirY);
 	//if the direction is too big divide by length so that the movement is small 
@@ -131,11 +131,11 @@ void Organism::Wander(float deltaTime)
 		dirX /= length; 
 		dirY /= length; 
 	}
-	x += dirX * speed; 
-	y += dirY * speed; 
+	x += dirX * speed/SG::WANDER_SPEED; 
+	y += dirY * speed/SG::WANDER_SPEED; 
 
 	//reset rest timer 
-	restTime = 0;
+	restTimer = 0;
 
 }
 
@@ -167,7 +167,9 @@ void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foo
 			if (dist < SG::EAT_RADIUS)
 			{
 				food->Eat();
-				Eat(); 
+				eatTimer = 1.0f; 
+				hunger -= 20.0f; //hardcode for now -> change to variable depending on food type
+				currentState = State::Eating; 
 				
 			}
 			return;
@@ -180,20 +182,28 @@ void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foo
 
 void Organism::Rest(float deltaTime)
 {
-	restTime += deltaTime;
-	if (restTime < SG::REST_MAX) {
-		metabolism /= 2;
+	// Resting slows hunger increase
+	hunger += metabolism * 0.25f * deltaTime;
+
+	//change the drift so it looks slower than wander 
+	x += dirX * speed * 0.1f;
+	y += dirY * speed * 0.1f;
+
+	// If hunger rises again, go back to wander
+	if (hunger > SG::REST_THRESHOLD) {
+		currentState = State::Wandering;
+
 	}
-	else {
-		metabolism *= 2; 
-		Wander(deltaTime); 
-	}
-						
+					
 	
 }
 
-void Organism::Eat()
+void Organism::Eat(float deltaTime)
 {
-	hunger -= 20.0f; //hardcode for now -> change to variable depending on food type
+	//have organism pause for a second after eating 
+	eatTimer -= deltaTime; 
+	if (eatTimer <= 0) {
+		currentState = State::Wandering;
+	}
 
 }

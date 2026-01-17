@@ -45,7 +45,8 @@ public:
 
 private: 
 	float hunger = 50.0f; //hunger starts at 50 and increases over time
-	float restTime = 0.0f;
+	float restTimer = 0.0f;
+	float eatTimer = 0.0f; 
 	float age = 0.0f; 
 
 	//traits 
@@ -64,7 +65,7 @@ private:
 	void Wander(float deltaTime); 
 	void FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foodList); 
 	void Rest(float deltaTime);
-	void Eat();
+	void Eat(float deltaTime);
 
 
 };
