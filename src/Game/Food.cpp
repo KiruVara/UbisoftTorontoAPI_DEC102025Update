@@ -5,6 +5,7 @@
 
 #include "Food.h"
 #include "../ContestAPI/app.h"
+#include "Constants.h"
 
 Food::Food(float startX, float startY)
 {
@@ -36,8 +37,8 @@ void Food::Eat()
 void Food::RespawnRandom()
 {
 	// Move food to a new random location
-	x = rand() % 800;
-	y = rand() % 600;
+	x = rand() % Settings::Window::SCREEN_WIDTH;
+	y = rand() % Settings::Window::SCREEN_HEIGHT;
 
 	eaten = false;
 
