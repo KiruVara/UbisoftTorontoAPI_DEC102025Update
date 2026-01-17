@@ -182,12 +182,22 @@ void Organism::FindFood(float deltaTime, std::vector<std::unique_ptr<Food>>& foo
 
 void Organism::Rest(float deltaTime)
 {
+	// assign a new direction each time to for movement. 
+	dirX = ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
+	dirY = ((rand() % SG::WANDER_VAR) - SG::WANDER_MID) * SG::WANDER_POWER;
+	
 	// Resting slows hunger increase
-	hunger += metabolism * 0.25f * deltaTime;
+	hunger += metabolism / SG::REST_METABOLISM * deltaTime;
 
-	//change the drift so it looks slower than wander 
-	x += dirX * speed * 0.1f;
-	y += dirY * speed * 0.1f;
+	float length = sqrt(dirX * dirX + dirY * dirY);
+	//if the direction is too big divide by length so that the movement is small 
+	if (length > 0.01f) {
+		dirX /= length;
+		dirY /= length;
+	}
+	x += dirX * speed;
+	y += dirY * speed;
+
 
 	// If hunger rises again, go back to wander
 	if (hunger > SG::REST_THRESHOLD) {

@@ -22,6 +22,7 @@ namespace Settings {
 		//rest
 		inline constexpr int REST_THRESHOLD = 20; //if hunger is lower than rest threshold organism can rest
 		inline constexpr int REST_MAX = 20; //amount of time organism can rest for
+		inline constexpr int REST_METABOLISM = 4;  //divide metabolism by this to get a slower metabolism at rest
 
 		//wander
 		inline constexpr float WANDER_POWER = 0.0001f; //force of turn
